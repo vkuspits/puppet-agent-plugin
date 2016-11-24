@@ -1,5 +1,5 @@
 # Plugin name
-name: puppet-agent-plugin
+name: puppet-agent
 # Human-readable name for your plugin
 title: Puppet-agent plugin
 # Plugin version
@@ -7,7 +7,7 @@ version: '1.0.0'
 # Description
 description: Plugin for installation puppet-agent on fuel nodes
 # Required fuel version
-fuel_version: ['9.0']
+fuel_version: ['9.0', '9.1']
 # Specify license of your plugin
 licenses: ['Apache License Version 2.0']
 # Specify author or company name

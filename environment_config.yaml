@@ -3,6 +3,12 @@ attributes:
     # Settings group can be one of "general", "security", "compute", "network",
     # "storage", "logging", "openstack_services" and "other".
     group: 'other'
+  enable-puppet-agent:
+    value: true
+    label: 'Enable puppet-agent'
+    description: 'Disable puppet-agent if you need'
+    weight: 25
+    type: "checkbox" 
   puppet-master-hostname:
     value: 'puppet-master'
     label: 'Hostname of puppet-master'
@@ -12,12 +18,51 @@ attributes:
     regex:
       source: '.+'
       error: "This field should not be empty. Please fill out this field."
+  no-dns:
+    value: false
+    label: 'Use /etc/hosts'
+    description: 'If you have not got dns server, set this parametr'
+    weight: 25
+    type: "checkbox"
   puppet-master-ip:
-    value: '10.109.10.2'
-    label: 'Ip address of puppet-master'
-    description: 'Write ip address of yours puppet-master. For example 10.109.10.2'
+    vallue: '10.109.10.10'
+    label: 'Ip of puppet-master'
+    description: 'Ip address of puppet-master node'
     weight: 25
     type: "text"
     regex:
       source: '.+'
       error: "This field should not be empty. Please fill out this field."
+    restrictions:
+      - condition: 'settings:puppet-agent.no-dns.value == true'
+        action: "hide"    
+  use-cron:
+    value: false
+    label: 'Use cron'
+    description: 'Puppet-agent via cron'
+    weight: 25
+    type: "radio"
+  cron-conf:
+   value: ''
+   label: 'Cron configuration'
+   description: 'Set up your configuration of cron'
+   weight: 25
+   type: "text"
+   restrictions:
+     - condition: 'settings:puppet-agent.use-cron.value == false'
+       action: "hide"
+  puppet-as-service:
+    value: true
+    label: 'Puppet-agent as service'
+    description: 'Start puppet-agent as a service'
+    weight: 25
+    type: "radio"
+#  puppet-master-ip:
+#    value: '10.109.10.2'
+#    label: 'Ip address of puppet-master'
+#    description: 'Write ip address of yours puppet-master. For example 10.109.10.2'
+#    weight: 25
+#    type: "text"
+#    regex:
+#      source: '.+'
+#      error: "This field should not be empty. Please fill out this field."
