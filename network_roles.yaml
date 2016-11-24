@@ -1,5 +1,5 @@
 # Unique network role name
-- id: "example_net_role"
+- id: "puppet-agent_network_role"
   # Role mapping to network
   default_mapping: "public"
   properties:

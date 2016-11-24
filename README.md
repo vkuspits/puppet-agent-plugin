@@ -1,7 +1,7 @@
 Puppet-agent plugin
 ============
 
-Plugin for insrallation puppet-agent on fuel nodes
+Plugin for installation puppet-agent on fuel nodes
 for managing nodes by puppet-master.
 
 Installation of plugin
@@ -13,7 +13,7 @@ git clone git@github.com:vkuspits/puppet-agent-plugin.git
 ```
 ##### Build this plugin by [Fuel plugin builder](https://github.com/openstack/fuel-plugins)
 ```
-fpb --build /.../puppet-agent-plugin
+fpb --build /dir/to/puppet-agent-plugin
 ```
 ##### Copy plugin to your's fuel-master node
 ```
