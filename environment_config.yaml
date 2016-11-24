@@ -1,0 +1,23 @@
+attributes:
+  metadata:
+    # Settings group can be one of "general", "security", "compute", "network",
+    # "storage", "logging", "openstack_services" and "other".
+    group: 'other'
+  puppet-master-hostname:
+    value: 'puppet-master'
+    label: 'Hostname of puppet-master'
+    description: 'Write hostname of yours puppet-master. For example puppet-master'
+    weight: 25
+    type: "text"
+    regex:
+      source: '.+'
+      error: "This field should not be empty. Please fill out this field."
+  puppet-master-ip:
+    value: '10.109.10.2'
+    label: 'Ip address of puppet-master'
+    description: 'Write ip address of yours puppet-master. For example 10.109.10.2'
+    weight: 25
+    type: "text"
+    regex:
+      source: '.+'
+      error: "This field should not be empty. Please fill out this field."

@@ -1,0 +1,29 @@
+# Plugin name
+name: puppet-agent-plugin
+# Human-readable name for your plugin
+title: Puppet-agent plugin
+# Plugin version
+version: '1.0.0'
+# Description
+description: Plugin for installation puppet-agent on fuel nodes
+# Required fuel version
+fuel_version: ['9.0']
+# Specify license of your plugin
+licenses: ['Apache License Version 2.0']
+# Specify author or company name
+authors: ['Vladislav Kuspits <vkuspits@mirantis.com>']
+# A link to the plugin's page
+homepage: 'https://github.com/vkuspits/puppet-agent-plugin'
+groups: []
+is_hotpluggable: true
+
+# The plugin is compatible with releases in the list
+releases:
+  - os: ubuntu
+    version: mitaka-9.0
+    mode: ['ha', 'multinode']
+    deployment_scripts_path: deployment_scripts/
+    repository_path: repositories/ubuntu
+
+# Version of plugin package
+package_version: '4.0.0'
