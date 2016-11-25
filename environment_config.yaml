@@ -43,7 +43,7 @@ attributes:
     weight: 25
     type: "radio"
   cron-conf:
-   value: ''
+   value: '*/30 * * * * *'
    label: 'Cron configuration'
    description: 'Set up your configuration of cron'
    weight: 25

@@ -8,6 +8,8 @@ $puppet-master-hostname   = $puppet-agent-plugin_data['puppet-master-hostname']
 $node-ip                  = hiera('', {})
 $node-hostname            = hiera('hostname', {})
 $use-cron                 = $puppet-agent-plugin_data['use-cron']
+$cron-str                 = $puppet-agent-plugin_data['cron-conf']
+$cron-conf                = spilt($cron-str, ' ')
 $puppet-agent-service     = 'puppet-agent'
 
 if $::osfamily == 'Debian' {
@@ -47,6 +49,15 @@ if $no-dns-server == true {
   }
 if $use-cron == true {
   #write resource for using cron
+  cron {  'puppet-cron':
+    command  => '/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60',
+    user     => root,
+    minute   => $cron-conf[0],
+    hour     => $cron-conf[1],
+    month    => $cron-conf[3],
+    monthday => $cron-conf[2],
+    weekday  => $cron-conf[4]
+  }
 }
 else {
   service { $puppet-agent-service:
