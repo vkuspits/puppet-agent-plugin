@@ -22,6 +22,7 @@ if $::osfamily == 'Debian' {
   }
 #if we had DNS-server we need't this two resources
 if $no-dns-server == true {
+#config /etc/hosts for puppet agent
   file_line { 'hosts':
     ensure => present,
     path   => '/etc/hosts',
@@ -33,7 +34,7 @@ if $no-dns-server == true {
     path   => '/etc/hosts',
     line   => "${node-ip} ${node-hostname}"
   }
-}  
+}
 #
   file_line { 'puppet.conf':
     path   => '/etc/puppet/puppet.conf',
@@ -48,7 +49,7 @@ if $no-dns-server == true {
     notify  => service[$puppet-agent-service]
   }
 if $use-cron == true {
-  #write resource for using cron
+#Set up cron job for puppet agent
   cron {  'puppet-cron':
     command  => '/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60',
     user     => root,
@@ -60,6 +61,7 @@ if $use-cron == true {
   }
 }
 else {
+#use puppet agent as service
   service { $puppet-agent-service:
     ensure => running,
     start  => 'puppet agent',

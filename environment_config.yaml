@@ -1,7 +1,5 @@
 attributes:
   metadata:
-    # Settings group can be one of "general", "security", "compute", "network",
-    # "storage", "logging", "openstack_services" and "other".
     group: 'other'
   enable-puppet-agent:
     value: true
@@ -25,7 +23,7 @@ attributes:
     weight: 25
     type: "checkbox"
   puppet-master-ip:
-    vallue: '10.109.10.10'
+    value: '10.109.10.10'
     label: 'Ip of puppet-master'
     description: 'Ip address of puppet-master node'
     weight: 25
@@ -57,12 +55,3 @@ attributes:
     description: 'Start puppet-agent as a service'
     weight: 25
     type: "radio"
-#  puppet-master-ip:
-#    value: '10.109.10.2'
-#    label: 'Ip address of puppet-master'
-#    description: 'Write ip address of yours puppet-master. For example 10.109.10.2'
-#    weight: 25
-#    type: "text"
-#    regex:
-#      source: '.+'
-#      error: "This field should not be empty. Please fill out this field."
