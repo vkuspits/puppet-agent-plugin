@@ -3,7 +3,7 @@ Puppet-agent plugin
 
 Plugin for installation puppet-agent on fuel nodes
 for managing nodes by puppet-master.
-> It is understood that the puppet configured as auto sing
+> It is understood that the puppet configured as auto sign
 
 Installation of plugin
 ============

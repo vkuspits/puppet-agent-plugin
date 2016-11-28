@@ -47,11 +47,11 @@ attributes:
     weight: 25
     type: "radio"
   cron-conf:
-   value: '*/30 * * * * *'
-   label: 'Cron configuration'
-   description: 'Set up your configuration of cron'
-   weight: 25
-   type: "text"
-   restrictions:
-     - condition: 'settings:puppet-agent.agent-type.value == service'
-       action: "hide"
+    value: '*/30 * * * * *'
+    label: 'Cron configuration'
+    description: 'Set up your configuration of cron'
+    weight: 25
+    type: "text"
+    restrictions:
+      - condition: 'settings:puppet-agent.agent-type.value == service'
+        action: "hide"
