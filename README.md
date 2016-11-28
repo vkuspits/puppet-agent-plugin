@@ -3,6 +3,7 @@ Puppet-agent plugin
 
 Plugin for installation puppet-agent on fuel nodes
 for managing nodes by puppet-master.
+> It is understood that the puppet configured as auto sing
 
 Installation of plugin
 ============
@@ -23,4 +24,4 @@ scp /dir/to/puppet-agent-plugin.rpm root@fuel:/tmp
 ```
 fuel plugins --install /tmp/puppet-agent-plugin.rpm
 ```
-:shipit:
+:shipit::+1:

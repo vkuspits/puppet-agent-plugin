@@ -34,10 +34,16 @@ attributes:
     restrictions:
       - condition: 'settings:puppet-agent.no-dns.value == true'
         action: "hide"    
-  use-cron:
-    value: false
-    label: 'Use cron'
-    description: 'Puppet-agent via cron'
+  agent-type:
+    value: "cron"
+    values:
+      - data: "service"
+        label: "Puppet agent service"
+        description: "Choose this type of puppet-agent if you want use puppet agent as service"
+      - data: "cron"
+        label: "Puppet agent use cron job"
+        description: "Choose this type of puppet-agent if you want use puppet agent from cron"
+    label: 'Type puppet agent run'
     weight: 25
     type: "radio"
   cron-conf:
@@ -47,11 +53,5 @@ attributes:
    weight: 25
    type: "text"
    restrictions:
-     - condition: 'settings:puppet-agent.use-cron.value == false'
+     - condition: 'settings:puppet-agent.agent-type.value == service'
        action: "hide"
-  puppet-as-service:
-    value: true
-    label: 'Puppet-agent as service'
-    description: 'Start puppet-agent as a service'
-    weight: 25
-    type: "radio"

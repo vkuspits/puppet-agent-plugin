@@ -1,76 +1,64 @@
 notice('MODULAR: puppet-agent-plugin/deploy-puppet-agent.pp')
 
-$puppet-version           = '3.8'
-$puppet-agent-plugin_data = hiera('puppet-agent', {})
-$no-dns-server            = $puppet-agent-plugin_data['no-dns']
-$puppet-master-ip         = $puppet-agent-plugin_data['puppet-master-ip']
-$puppet-master-hostname   = $puppet-agent-plugin_data['puppet-master-hostname']
-$node-ip                  = hiera('', {})
-$node-hostname            = hiera('hostname', {})
-$use-cron                 = $puppet-agent-plugin_data['use-cron']
-$cron-str                 = $puppet-agent-plugin_data['cron-conf']
-$cron-conf                = spilt($cron-str, ' ')
-$puppet-agent-service     = 'puppet-agent'
+$puppet_version           = '3.8'
+$puppet_agent_plugin_data = hiera('puppet-agent', {})
+$no_dns_server            = $puppet_agent_plugin_data['no-dns']
+$puppet_master_ip         = $puppet_agent_plugin_data['puppet_master_ip']
+$puppet_master_hostname   = $puppet_agent_plugin_data['puppet_master_hostname']
+$node_ip                  = hiera('', {})
+$node_hostname            = hiera('hostname', {})
+$use_cron                 = $puppet_agent_plugin_data['use_cron']
+$cron_str                 = $puppet_agent_plugin_data['cron_conf']
+$cron_conf                = spilt($cron_str, ' ')
+$puppet_agent_service     = 'puppet-agent'
 
 if $::osfamily == 'Debian' {
   $required_packages = 'puppet'
   
   package { $required_packages:
-    ensure   => $puppet-version,
-    provider => 'apt',
-    before   => File_line['puppet.conf']
+    ensure   => $puppet_version
   }
 #if we had DNS-server we need't this two resources
-if $no-dns-server == true {
+if $no_dns_server == true {
 #config /etc/hosts for puppet agent
-  file_line { 'hosts':
-    ensure => present,
-    path   => '/etc/hosts',
-    line   => "${puppet-master-ip} ${puppet-master-hostname}"
+  host { 'puppet-master':
+    name    => $puppet_master_hostname,
+    ip      => $puppet_master_ip,
+    comment => 'Address of puppet-master'
   }
 
-  file_line { 'hosts':
-    ensure => present,
-    path   => '/etc/hosts',
-    line   => "${node-ip} ${node-hostname}"
+  host { 'puppet-agent':
+    name    => $node_hostname,
+    ip      => $node_ip,
+    comment => 'Address of puppet-agent'
   }
 }
 #
-  file_line { 'puppet.conf':
-    path   => '/etc/puppet/puppet.conf',
-    line   => "server = ${puppet-master-hostname}",
-    match  => '^server =',
-    notify => exec['create certificate']
+  puppet_config {
+    'agent/server': value => $puppet_master_hostname;
   }
-
-  exec { 'create sertificate':
-    command => 'puppet agent --server $puppet-master-hostname --waitforcert 60 --test',
-    path    => '/usr/bin:/usr/sbin:/bin',
-    notify  => service[$puppet-agent-service]
+  #file_line { 'puppet.conf':
+  #  path   => '/etc/puppet/puppet.conf',
+  #  line   => "server = ${puppet_master_hostname}",
+  #  match  => '^server =',
+  #  notify => exec['create certificate']
   }
-if $use-cron == true {
+if $use_cron == true {
 #Set up cron job for puppet agent
   cron {  'puppet-cron':
     command  => '/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60',
     user     => root,
-    minute   => $cron-conf[0],
-    hour     => $cron-conf[1],
-    month    => $cron-conf[3],
-    monthday => $cron-conf[2],
-    weekday  => $cron-conf[4]
+    minute   => $cron_conf[0],
+    hour     => $cron_conf[1],
+    month    => $cron_conf[3],
+    monthday => $cron_conf[2],
+    weekday  => $cron_conf[4]
   }
 }
 else {
 #use puppet agent as service
-  service { $puppet-agent-service:
-    ensure => running,
-    start  => 'puppet agent',
-    notify => exec['puppet-agent autostart']
-  }
-
-  exec { 'puppet-agent autostart':
-    command => 'chkconfig puppet on',
-    path    => '/usr/bin:/usr/sbin:/bin'
+  service { $puppet_agent_service:
+    ensure => running
   }
 }
 }
