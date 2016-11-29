@@ -6,7 +6,7 @@ attributes:
     label: 'Enable puppet-agent'
     description: 'Disable puppet-agent if you need'
     weight: 25
-    type: "checkbox" 
+    type: "checkbox"
   puppet-master-hostname:
     value: 'puppet-master'
     label: 'Hostname of puppet-master'
@@ -33,7 +33,7 @@ attributes:
       error: "This field should not be empty. Please fill out this field."
     restrictions:
       - condition: 'settings:puppet-agent.no-dns.value == true'
-        action: "hide"    
+        action: "hide"
   agent-type:
     value: "cron"
     values:
