@@ -53,5 +53,5 @@ attributes:
     weight: 25
     type: "text"
     restrictions:
-      - condition: 'settings:puppet-agent.agent-type.value == service'
+      - condition: "settings:puppet-agent.agent-type.value == 'service'"
         action: "hide"
