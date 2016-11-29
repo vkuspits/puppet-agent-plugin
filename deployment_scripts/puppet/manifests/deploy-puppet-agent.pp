@@ -3,12 +3,12 @@ notice('MODULAR: puppet-agent-plugin/deploy-puppet-agent.pp')
 $puppet_version           = '3.8'
 $puppet_agent_plugin_data = hiera('puppet-agent', {})
 $no_dns_server            = $puppet_agent_plugin_data['no-dns']
-$puppet_master_ip         = $puppet_agent_plugin_data['puppet_master_ip']
-$puppet_master_hostname   = $puppet_agent_plugin_data['puppet_master_hostname']
+$puppet_master_ip         = $puppet_agent_plugin_data['puppet-master-ip']
+$puppet_master_hostname   = $puppet_agent_plugin_data['puppet-master-hostname']
 $node_ip                  = hiera('', {})
 $node_hostname            = hiera('hostname', {})
-$use_cron                 = $puppet_agent_plugin_data['use_cron']
-$cron_str                 = $puppet_agent_plugin_data['cron_conf']
+$use_cron                 = $puppet_agent_plugin_data['use-cron']
+$cron_str                 = $puppet_agent_plugin_data['cron-conf']
 $cron_conf                = spilt($cron_str, ' ')
 $puppet_agent_service     = 'puppet-agent'
 
@@ -16,7 +16,7 @@ if $::osfamily == 'Debian' {
   $required_packages = 'puppet'
   
   package { $required_packages:
-    ensure   => $puppet_version
+    ensure   => $puppet_version,
   }
 #if we had DNS-server we need't this two resources
 if $no_dns_server == true {
@@ -24,13 +24,13 @@ if $no_dns_server == true {
   host { 'puppet-master':
     name    => $puppet_master_hostname,
     ip      => $puppet_master_ip,
-    comment => 'Address of puppet-master'
+    comment => 'Address of puppet-master',
   }
 
   host { 'puppet-agent':
     name    => $node_hostname,
     ip      => $node_ip,
-    comment => 'Address of puppet-agent'
+    comment => 'Address of puppet-agent',
   }
 }
 #
@@ -42,7 +42,7 @@ if $no_dns_server == true {
   #  line   => "server = ${puppet_master_hostname}",
   #  match  => '^server =',
   #  notify => exec['create certificate']
-  }
+  #}
 if $use_cron == true {
 #Set up cron job for puppet agent
   cron {  'puppet-cron':
@@ -52,13 +52,13 @@ if $use_cron == true {
     hour     => $cron_conf[1],
     month    => $cron_conf[3],
     monthday => $cron_conf[2],
-    weekday  => $cron_conf[4]
+    weekday  => $cron_conf[4],
   }
 }
 else {
 #use puppet agent as service
   service { $puppet_agent_service:
-    ensure => running
+    ensure => running,
   }
 }
 }
