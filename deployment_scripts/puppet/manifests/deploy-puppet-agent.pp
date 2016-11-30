@@ -5,12 +5,13 @@ $puppet_agent_plugin_data = hiera('puppet-agent', {})
 $no_dns_server            = $puppet_agent_plugin_data['no-dns']
 $puppet_master_ip         = $puppet_agent_plugin_data['puppet-master-ip']
 $puppet_master_hostname   = $puppet_agent_plugin_data['puppet-master-hostname']
-$node_ip                  = hiera('', {})
-$node_hostname            = hiera('hostname', {})
-$use_cron                 = $puppet_agent_plugin_data['use-cron']
+$node                     = hiera('provision', {})
+$node_ip                  = $node['power_address']
+$node_hostname            = hiera('fqdn', {})
+$agent_type               = $puppet_agent_plugin_data['agent-type']
 $cron_str                 = $puppet_agent_plugin_data['cron-conf']
-$cron_conf                = spilt($cron_str, ' ')
-$puppet_agent_service     = 'puppet-agent'
+$cron_conf                = split($cron_str, ' ')
+$puppet_agent_service     = 'puppet'
 
 if $::osfamily == 'Debian' {
   $required_packages = 'puppet'
@@ -37,16 +38,10 @@ if $no_dns_server == true {
   puppet_config {
     'agent/server': value => $puppet_master_hostname;
   }
-  #file_line { 'puppet.conf':
-  #  path   => '/etc/puppet/puppet.conf',
-  #  line   => "server = ${puppet_master_hostname}",
-  #  match  => '^server =',
-  #  notify => exec['create certificate']
-  #}
-if $use_cron == true {
+if $agent_type == 'cron' {
 #Set up cron job for puppet agent
   cron {  'puppet-cron':
-    command  => '/opt/puppetlabs/bin/puppet agent --onetime --no-daemonize --splay --splaylimit 60',
+    command  => 'puppet agent --onetime --no-daemonize --splay --splaylimit 60',
     user     => root,
     minute   => $cron_conf[0],
     hour     => $cron_conf[1],
