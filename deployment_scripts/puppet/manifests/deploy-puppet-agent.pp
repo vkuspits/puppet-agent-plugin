@@ -13,7 +13,7 @@ $cron_conf                = split($cron_str, ' ')
 $puppet_agent_service     = 'puppet'
 
 $length       = inline_template('<%= @cron_conf.length %>') - 1
-$cron_command = inline_template('<%= @cron_conf[6..$length].join(" ") %>')
+$cron_command = inline_template('<%= @cron_conf[6..@length].join(" ") %>')
 
 
 if $::osfamily == 'Debian' {
