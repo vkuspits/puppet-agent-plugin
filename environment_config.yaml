@@ -7,6 +7,12 @@ attributes:
     description: 'Disable puppet-agent if you need'
     weight: 25
     type: "checkbox"
+  enable-lcm-9.2:
+    value: false
+    label: 'Use lcm 9.2'
+    description: 'Pick if you use fuel 9.2'
+    weight: 25
+    type: "checkbox"
   puppet-master-hostname:
     value: 'puppet-master'
     label: 'Hostname of puppet-master'
@@ -47,7 +53,7 @@ attributes:
     weight: 25
     type: "radio"
   cron-conf:
-    value: '*/30 * * * * * puppet agent --onetime --no-daemonize --splay --splaylimit 60'
+    value: '*/30 * * * * puppet agent --onetime --no-daemonize --splay --splaylimit 60'
     label: 'Cron configuration'
     description: 'Set up your configuration of cron'
     weight: 25

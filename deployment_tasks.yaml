@@ -12,3 +12,18 @@
     puppet_manifest: "puppet/manifests/deploy-puppet-agent.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
     timeout: 3600
+
+- id: override-resources
+  type: puppet
+  role: ['/.*/']
+  version: 2.0.0
+  cross-depends:
+    - name: deploy_start
+  cross-depended-by:
+    - name: deploy_end
+  condition:
+    yaql_exp: '($.puppet-agent.enable-lcm-9.2) = True'
+  parameters:
+    puppet_manifest: "puppet/manifests/override-resources.pp"
+    puppet_modules: "puppet/modules:/etc/puppet/modules"
+    timeout: 3600
