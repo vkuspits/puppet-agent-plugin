@@ -47,7 +47,7 @@ attributes:
     weight: 25
     type: "radio"
   cron-conf:
-    value: '*/30 * * * * *'
+    value: '*/30 * * * * * puppet agent --onetime --no-daemonize --splay --splaylimit 60'
     label: 'Cron configuration'
     description: 'Set up your configuration of cron'
     weight: 25
