@@ -1,6 +1,5 @@
 notice('MODULAR: puppet-agent-plugin/deploy-puppet-agent.pp')
 
-$puppet_version           = '3.8'
 $puppet_agent_plugin_data = hiera('puppet-agent', {})
 $no_dns_server            = $puppet_agent_plugin_data['no-dns']
 $puppet_master_ip         = $puppet_agent_plugin_data['puppet-master-ip']
@@ -12,6 +11,10 @@ $agent_type               = $puppet_agent_plugin_data['agent-type']
 $cron_str                 = $puppet_agent_plugin_data['cron-conf']
 $cron_conf                = split($cron_str, ' ')
 $puppet_agent_service     = 'puppet'
+
+$length       = inline_template('<%= @cron_conf.length %>') - 1
+$cron_command = inline_template('<%= @cron_conf[6..$length].join(" ") %>')
+
 
 if $::osfamily == 'Debian' {
   $required_packages = 'puppet'
@@ -41,7 +44,7 @@ if $no_dns_server == true {
 if $agent_type == 'cron' {
 #Set up cron job for puppet agent
   cron {  'puppet-cron':
-    command  => 'puppet agent --onetime --no-daemonize --splay --splaylimit 60',
+    command  => $cron_command,
     user     => root,
     minute   => $cron_conf[0],
     hour     => $cron_conf[1],
