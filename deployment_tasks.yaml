@@ -22,7 +22,7 @@
   cross-depended-by:
     - name: deploy_end
   condition:
-    yaql_exp: '($.puppet-agent.enable-lcm-9.2) = True'
+    yaql_exp: "($.common['puppet-agent']['enable-lcm-9.2']) = True"
   parameters:
     puppet_manifest: "puppet/manifests/override-resources.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
