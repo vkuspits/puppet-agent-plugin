@@ -5,13 +5,7 @@ attributes:
     value: true
     label: 'Enable puppet-agent'
     description: 'Disable puppet-agent if you need'
-    weight: 25
-    type: "checkbox"
-  enable-lcm-9.2:
-    value: false
-    label: 'Use lcm 9.2'
-    description: 'Pick if you use fuel 9.2'
-    weight: 25
+    weight: 23
     type: "checkbox"
   puppet-master-hostname:
     value: 'puppet-master'
@@ -38,7 +32,7 @@ attributes:
       source: '.+'
       error: "This field should not be empty. Please fill out this field."
     restrictions:
-      - condition: 'settings:puppet-agent.no-dns.value == true'
+      - condition: 'settings:puppet-agent.no-dns.value == false'
         action: "hide"
   agent-type:
     value: "cron"
@@ -61,3 +55,9 @@ attributes:
     restrictions:
       - condition: "settings:puppet-agent.agent-type.value == 'service'"
         action: "hide"
+  enable-lcm-9_2:
+    value: false
+    label: 'Enable override resources for Fuel 9.2'
+    description: 'Enable if you have Fuel 9.2 version'
+    weight: 24
+    type: "checkbox"
