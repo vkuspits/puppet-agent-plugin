@@ -4,8 +4,7 @@
   type: puppet
   role: ['/.*/']
   version: 2.0.0
-  requires: [deploy_start]
-  required_for: [deploy_end]
+  requires: [post_deployment_end]
   parameters:
     puppet_manifest: "puppet/manifests/deploy-puppet-agent.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
@@ -15,8 +14,7 @@
   type: puppet
   role: ['/.*/']
   version: 2.0.0
-  requires: [deploy_start]
-  required_for: [deploy_end]
+  requires: [post_deployment_end]
   condition:
     yaql_exp: "$.get('puppet-agent',{}).get('enable-lcm-9_2', false) = true"
   parameters:
