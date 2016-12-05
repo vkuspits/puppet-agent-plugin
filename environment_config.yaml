@@ -57,7 +57,7 @@ attributes:
         action: "hide"
   enable-lcm-9_2:
     value: false
-    label: 'Enable override resources for Fuel 9.2'
-    description: 'Enable if you have Fuel 9.2 version'
+    label: 'Enable override resources from Fuel 9.2'
+    description: 'Enable if you want to use IaC capabilities introduced in 9.2'
     weight: 24
     type: "checkbox"

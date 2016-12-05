@@ -4,10 +4,8 @@
   type: puppet
   role: ['/.*/']
   version: 2.0.0
-  cross-depends:
-    - name: deploy_start
-  cross-depended-by:
-    - name: deploy_end
+  requires: [deploy_start]
+  required_for: [deploy_end]
   parameters:
     puppet_manifest: "puppet/manifests/deploy-puppet-agent.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
@@ -17,13 +15,11 @@
   type: puppet
   role: ['/.*/']
   version: 2.0.0
-  cross-depends:
-    - name: deploy_start
-  cross-depended-by:
-    - name: deploy_end
+  requires: [deploy_start]
+  required_for: [deploy_end]
   condition:
-    yaql_exp: "($.common['puppet-agent']['enable-lcm-9_2']) = True"
+    yaql_exp: "$.get('puppet-agent',{}).get('enable-lcm-9_2', false) = true"
   parameters:
-    puppet_manifest: "puppet/manifests/override-resources.pp"
+    puppet_manifest: "puppet/manifests/override_resources.pp"
     puppet_modules: "puppet/modules:/etc/puppet/modules"
     timeout: 3600
