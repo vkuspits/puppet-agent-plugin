@@ -7,6 +7,7 @@ $puppet_master_hostname   = $puppet_agent_plugin_data['puppet-master-hostname']
 $node                     = hiera('provision', {})
 $node_ip                  = $node['power_address']
 $node_hostname            = hiera('fqdn', {})
+$enable_puppet            = $puppet_agent_plugin_data['enable-puppet-agent']
 $agent_type               = $puppet_agent_plugin_data['agent-type']
 $cron_str                 = $puppet_agent_plugin_data['cron-conf']
 $cron_conf                = split($cron_str, ' ')
@@ -40,9 +41,17 @@ if $no_dns_server == true {
   puppet_config {
     'agent/server': value => $puppet_master_hostname;
   }
+
 if $agent_type == 'cron' {
 #Set up cron job for puppet agent
+if $enable_puppet == true {
+  $status = 'present'
+}
+else {
+  $status = 'absent'
+}
   cron {  'puppet-cron':
+    ensure   => $status,
     command  => $cron_command,
     user     => root,
     minute   => $cron_conf[0],
@@ -53,9 +62,15 @@ if $agent_type == 'cron' {
   }
 }
 else {
+if $enable_puppet == true{
+  $status = 'running'
+}
+else {
+  $status = 'stopped'
+}
 #use puppet agent as service
   service { $puppet_agent_service:
-    ensure => running,
+    ensure => $status,
   }
 }
 }
